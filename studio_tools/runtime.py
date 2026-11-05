@@ -6,6 +6,7 @@ from pathlib import Path
 import shlex
 import subprocess
 import sys
+import zlib
 
 from studio_tools import remote
 
@@ -57,7 +58,8 @@ def _ssh(config, command, *, source=None, interactive=False):
     arguments = ["ssh", "-t" if interactive else "-T", "-o", "ConnectTimeout=10"]
     if not interactive:
         arguments += ["-o", "BatchMode=yes"]
-    arguments += [config["host"], command]
+    arguments += [config["host"]]
+    arguments += command if isinstance(command, list) else [command]
     try:
         if interactive:
             with subprocess.Popen(
@@ -153,12 +155,27 @@ def doctor(config):
     encoded = base64.b64encode(json.dumps(bundle).encode()).decode()
     source = (ROOT / "studio_tools" / "remote.py").read_text()
     if config["sudo"]:
-        script = base64.b64encode(source.encode()).decode()
-        program = f"import base64; exec(base64.b64decode('{script}'))"
-        command = (
-            f"sudo python3 -c {shlex.quote(program)} doctor "
-            f"--bundle-base64 {shlex.quote(encoded)}"
+        # Keep the in-memory helper below Windows' process command-line limit.
+        script = base64.b64encode(zlib.compress(source.encode())).decode()
+        chunks = [script[index : index + 3000] for index in range(0, len(script), 3000)]
+        payload = "+".join("sys.argv.pop(1)" for _ in chunks)
+        # Pass the payload separately to avoid nested shell quotes through Git SSH.
+        program = (
+            "import base64,sys,zlib; "
+            f"exec(zlib.decompress(base64.b64decode({payload})))"
         )
+        # MSYS programs also truncate individual arguments near 8192 characters.
+        # SSH joins these bounded fragments into the remote shell command.
+        command = [
+            "sudo",
+            "python3",
+            "-c",
+            shlex.quote(program),
+            *chunks,
+            "doctor",
+            "--bundle-base64",
+            encoded,
+        ]
         result = _ssh(config, command, interactive=True)
         return _parse_report(result.stdout)
     command = f"python3 - doctor --bundle-base64 {shlex.quote(encoded)}"
