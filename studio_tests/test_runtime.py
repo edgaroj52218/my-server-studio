@@ -2,6 +2,8 @@
 
 import json
 import io
+import shlex
+import sys
 import subprocess
 import ssl
 import urllib.error
@@ -260,14 +262,57 @@ def test_interactive_doctor_uses_normal_sudo_without_installing_helper(monkeypat
 
     monkeypatch.setattr(runtime, "_ssh", ssh)
     assert runtime.doctor({**HOSTED, "sudo": True}) == report
-    assert calls[0][1].startswith("sudo python3 -c ")
+    assert calls[0][1][:3] == ["sudo", "python3", "-c"]
     assert calls[0][2] == {"interactive": True}
     assert "StrictHostKeyChecking=no" not in calls[0][1]
+
+
+def test_sudo_doctor_fits_windows_command_limit_and_loads_helper(monkeypatch):
+    """Exercise the real helper payload without SSH or running server checks."""
+    calls = []
+    report = {"status": "ready", "mode": "hosted", "target": HOSTED["host"]}
+
+    def ssh(_config, command, **_kwargs):
+        calls.append(command)
+        return subprocess.CompletedProcess([], 0, json.dumps(report), "")
+
+    monkeypatch.setattr(runtime, "_ssh", ssh)
+    runtime.doctor({**HOSTED, "sudo": True})
+    arguments = ["ssh", "-t", "-o", "ConnectTimeout=10", HOSTED["host"], *calls[0]]
+    assert len(subprocess.list2cmdline(arguments)) < 30000
+    assert max(map(len, arguments)) < 4000
+    command = " ".join(calls[0])
+    remote_arguments = shlex.split(command)
+    program = remote_arguments[3]
+    # Quoting stays one level deep for Windows Python -> Git SSH -> remote Bash.
+    assert '"' not in command
+    assert command.count("'") == 2
+    monkeypatch.setattr(sys, "argv", ["-c", *remote_arguments[4:]])
+    namespace = {"__name__": "transport_test"}
+    exec(program, namespace)  # pylint: disable=exec-used
+    assert callable(namespace["doctor"])
+    assert callable(namespace["validate_config"])
+    assert sys.argv[1] == "doctor"
 
 
 def test_bad_release_cannot_select_arbitrary_container():
     with pytest.raises(ValueError, match="approved full image digest"):
         remote.validate_release({**RELEASE, "image": "ubuntu:latest"})
+
+
+@pytest.mark.parametrize(
+    "image",
+    [
+        "docker.io/edgaroj52218/is373_ci_cd:prod",
+        "docker.io/edgaroj52218/is373_ci_cd@sha256:" + "a" * 64,
+        "docker.io/unreviewed/is373_ci_cd@sha256:" + "a" * 64,
+        "docker.io/edgaroj52218/another-app@sha256:" + "a" * 64,
+    ],
+)
+def test_calculator_selection_rejects_tags_and_unreviewed_repositories(image):
+    """The assignment uses only the supplied digest-pinned calculator."""
+    with pytest.raises(ValueError, match="approved full image digest"):
+        remote.validate_release({**RELEASE, "image": image})
 
 
 def test_sudo_report_is_owned_by_invoking_operator(monkeypatch, tmp_path):
