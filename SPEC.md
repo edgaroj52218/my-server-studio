@@ -2,8 +2,8 @@
 
 ## STUDIO-001 · Launch a tested calculator on an existing server
 
-**Status:** Supplied image launched and verified; local Linux fast checks and full hosting PR CI/E2E passed. Prediction, browser observation, keep decision and initial accuracy review recorded; check interpretation and hosting GitHub completion remain pending.
-**Next step:** Publish the approved CI-results update and evidence links, then verify latest checks before merge while preserving the learner check-interpretation gap.
+**Status:** Supplied image launched and verified; local Linux fast checks and full hosting CI/E2E passed. Hosting PR #2 is merged and issue #1 is closed with evidence links. Prediction, browser observation, keep decision and accuracy review are recorded; the learner's check interpretation remains Pending.
+**Next step:** Publish this final documentation update, verify its main-branch checks and run studio status. Preserve the learner contribution gap; submit the repository URL rather than only the calculator URL.
 **Instructor implementation:** [issue #9](https://github.com/kaw393939/373_hosting/issues/9).
 Create your own issue from the [lesson template](.github/ISSUE_TEMPLATE/studio-calculator.md).
 
@@ -42,7 +42,7 @@ reviewed, selected evidence; never commit credentials or raw server output.
 | Preservation of unrelated services | Launch report checked six existing containers unchanged for identity, state and published ports; broader behavior is outside this check. |
 | Own prediction, check interpretation, browser observation and keep/revise reason | [LEARNING.md](LEARNING.md): prediction, observed 42 in both displays for 6 × 7, and keep reason recorded; check interpretation remains pending after AI hint/explanation. |
 | Accuracy review before publishing learner excerpts | Learner approved the original displayed draft and authorized the later CI-results update after requesting an explanation; see LEARNING.md Review. |
-| Actual PR, latest CI, merge and issue closure | [PR #2](https://github.com/edgaroj52218/my-server-studio/pull/2) open; [full CI run](https://github.com/edgaroj52218/my-server-studio/actions/runs/42148748772) passed on `1f297b3`. Consult [PR checks](https://github.com/edgaroj52218/my-server-studio/pull/2/checks) for later revisions. Merge and issue closure not yet confirmed. |
+| Actual PR, CI, merge and issue closure | [PR #2](https://github.com/edgaroj52218/my-server-studio/pull/2) merged as `bf9f6d4`; [final PR CI](https://github.com/edgaroj52218/my-server-studio/actions/runs/42150088444) passed on `a49946c`, and [merged-main CI](https://github.com/edgaroj52218/my-server-studio/actions/runs/42150349061) passed all three jobs. [Issue #1](https://github.com/edgaroj52218/my-server-studio/issues/1) is closed; its [completion comment](https://github.com/edgaroj52218/my-server-studio/issues/1#issuecomment-6675235993) links actual evidence and preserves the explanation gap. Check [Actions](https://github.com/edgaroj52218/my-server-studio/actions) for any subsequent documentation commit's latest result. |
 
 Link the exported `studio/evidence.json`, actual CI and issue/PR when available.
 CI does not deploy this server. A fixture, green check, timestamp, closed issue
