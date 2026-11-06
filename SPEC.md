@@ -2,8 +2,8 @@
 
 ## STUDIO-001 · Launch a tested calculator on an existing server
 
-**Status:** Supplied image launched and verified; local Linux fast checks passed. Prediction, browser observation, keep decision and accuracy review recorded; check interpretation and hosting GitHub completion remain pending.
-**Next step:** Publish the reviewed hosting branch and complete PR/full CI while preserving the learner check-interpretation gap.
+**Status:** Supplied image launched and verified; local Linux fast checks and full hosting PR CI/E2E passed. Prediction, browser observation, keep decision and initial accuracy review recorded; check interpretation and hosting GitHub completion remain pending.
+**Next step:** Publish the approved CI-results update and evidence links, then verify latest checks before merge while preserving the learner check-interpretation gap.
 **Instructor implementation:** [issue #9](https://github.com/kaw393939/373_hosting/issues/9).
 Create your own issue from the [lesson template](.github/ISSUE_TEMPLATE/studio-calculator.md).
 
@@ -20,8 +20,8 @@ server baseline or a vulnerability-free image.
 
 - **Public hostname:** `calc.edgarstevenojeda.site` (learner selected).
 - **New launch or adopted deployment, and reason:** Newly launched after explicit learner approval of the final plan. The preserved [first-launch report](studio/launch-evidence.json) records `launched`, `new_launch: true` and actual release checks.
-- **Own issue / feature branch:** [Hosting issue #1](https://github.com/edgaroj52218/my-server-studio/issues/1); `codex/studio-001-calculator` (local).
-- **Agreed scope or actual access/configuration gap:** Learner approved the supplied-image plan for existing `hosting-web`, preserving existing services. Launch and repeat verification passed; private server access stays in ignored settings. Full hosting CI/E2E remains pending.
+- **Own issue / feature branch:** [Hosting issue #1](https://github.com/edgaroj52218/my-server-studio/issues/1); `codex/studio-001-calculator`; [hosting PR #2](https://github.com/edgaroj52218/my-server-studio/pull/2).
+- **Agreed scope or actual access/configuration gap:** Learner approved the supplied-image plan for existing `hosting-web`, preserving existing services. Launch, repeat verification and full hosting PR CI/E2E passed; private server access stays in ignored settings. Check interpretation remains an explicit learner contribution gap.
 
 The supplied release's exact image, commit, source and publication links are in
 the [release selection](studio/calculator-release.json). The learner's separate
@@ -37,12 +37,12 @@ reviewed, selected evidence; never commit credentials or raw server output.
 
 | Evidence | Actual result / link |
 |---|---|
-| Prepared Black/Pylint/pytest and real-image browser checks | Native Windows fast check failed on Unix-only OS/signal interfaces. Prepared fast check then passed on the laptop's existing Docker in an isolated Linux container: Black, Pylint and 96 tests passed; 2 E2E tests deselected, not passed. The container was removed. Hosting PR full CI/E2E remains pending. |
+| Prepared Black/Pylint/pytest and real-image browser checks | Native Windows fast check failed on Unix-only OS/signal interfaces. Isolated local Linux fast checks passed Black, Pylint and 96 tests, with 2 E2E tests deselected. [Full hosting CI](https://github.com/edgaroj52218/my-server-studio/actions/runs/42148748772) then passed Black, Pylint, 96 non-E2E and 2 real-image/Chromium E2E tests on implementation commit `1f297b3`; validate and integration-contract also passed. Later documentation revisions require their own latest check review before merging. |
 | Hosted image/commit, trusted HTTPS, valid and rejected API cases | Launch and repeat verification passed; [latest sanitized evidence](studio/evidence.json), [preserved first launch](studio/launch-evidence.json). Latest operation is `already-managed`, distinct from original creation. |
 | Preservation of unrelated services | Launch report checked six existing containers unchanged for identity, state and published ports; broader behavior is outside this check. |
 | Own prediction, check interpretation, browser observation and keep/revise reason | [LEARNING.md](LEARNING.md): prediction, observed 42 in both displays for 6 × 7, and keep reason recorded; check interpretation remains pending after AI hint/explanation. |
-| Accuracy review before publishing learner excerpts | Learner approved the displayed draft before its first commit/push; see LEARNING.md Review. |
-| Actual PR, latest CI, merge and issue closure | Pending |
+| Accuracy review before publishing learner excerpts | Learner approved the original displayed draft and authorized the later CI-results update after requesting an explanation; see LEARNING.md Review. |
+| Actual PR, latest CI, merge and issue closure | [PR #2](https://github.com/edgaroj52218/my-server-studio/pull/2) open; [full CI run](https://github.com/edgaroj52218/my-server-studio/actions/runs/42148748772) passed on `1f297b3`. Consult [PR checks](https://github.com/edgaroj52218/my-server-studio/pull/2/checks) for later revisions. Merge and issue closure not yet confirmed. |
 
 Link the exported `studio/evidence.json`, actual CI and issue/PR when available.
 CI does not deploy this server. A fixture, green check, timestamp, closed issue

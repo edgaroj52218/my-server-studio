@@ -39,6 +39,12 @@ The learner reviewed the drafted excerpts before publication and replied:
 “It seems accurate, let's move on forward.” This approves record accuracy;
 the separate check-interpretation contribution remains pending.
 
+For the later CI-results update, the learner requested an explanation and
+authorized publication after it. AI explained the distinction between the
+hosting tool checks, real-image/Chromium E2E, public runtime checks and the
+learner's own browser observation. This is recorded as AI help, not a new
+learner interpretation or proof of understanding.
+
 ## AI work and next step
 
 AI helped with local setup, DNS/SSH guidance, Windows SSH compatibility fixes,
@@ -50,7 +56,11 @@ learner subsequently chose the assignment's supplied image, which is deployed.
 
 Native Windows fast checks failed on Unix-only interfaces. The prepared fast
 checks then passed in a temporary local Linux Docker container: Black, Pylint,
-96 tests; 2 E2E tests deselected, not passed. Full hosting CI/E2E remains pending.
+96 tests; 2 E2E tests deselected, not passed locally. The hosting PR's
+[full CI run](https://github.com/edgaroj52218/my-server-studio/actions/runs/42148748772)
+then passed Black, Pylint, 96 non-E2E tests and 2 real-image/Chromium E2E tests.
+The validate and integration-contract jobs also passed. CI evidence is separate
+from the learner's browser observation and hosted runtime verification.
 Actual technical reports and issue links are in [SPEC.md](SPEC.md),
 [latest evidence](studio/evidence.json) and
 [first-launch evidence](studio/launch-evidence.json).
